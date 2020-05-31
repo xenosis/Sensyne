@@ -28,13 +28,12 @@ object ApiClient {
             .build()
     }
 
-    fun getHospitalInformation(success: (Hospitals) -> Unit, networkError: (Boolean) -> Unit) {
+    fun getHospitalInformation(success: (Hospitals) -> Unit, error: (Boolean) -> Unit) {
         val downloadApi: DownloadApi = retrofit.create(DownloadApi::class.java)
 
         downloadApi.getHospitalInformation()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-
             .subscribeBy(
                 onNext = { response ->
                     when (response.code()) {
@@ -45,13 +44,15 @@ object ApiClient {
                             success(hospitals)
                         }
                         else -> {
-                            networkError(false)
+                            error(false)
                         }
                     }
                 },
                 onError = {
-                    networkError(true)
+                    error(true)
                 }
             )
+        }
     }
-}
+
+

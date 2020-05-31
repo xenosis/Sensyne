@@ -1,46 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:visibility="visible"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_centerInParent="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </ProgressBar>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
-        android:id="@+id/layout"
-        android:layout_height="match_parent"
-        android:scrollbars="horizontal|vertical"
+    <data>
+        <variable name="viewModel" type="com.sensyne.hospitals.ui.HospitalsViewModel"/>
+        <import type="android.view.View"/>
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="5dip"
-        android:scrollbarStyle="outsideInset"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalView"
-            android:layout_height="wrap_content"
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="@{!viewModel.dataReady ? View.VISIBLE : View.GONE}"
+            android:layout_centerInParent="true"
+            >
+        </ProgressBar>
+
+        <ScrollView
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scrollbars="horizontal|vertical"
-            android:layout_marginTop="5dip">
+            android:layout_marginTop="5dip"
+            android:scrollbarStyle="outsideInset"
+            android:fillViewport="true">
 
-            <TableLayout
-                android:id="@+id/tableLayout"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </TableLayout>
+            <HorizontalScrollView
+                android:id="@+id/horizontalView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal|vertical"
+                android:layout_marginTop="5dip">
 
-        </HorizontalScrollView>
+                <TableLayout
+                    android:id="@+id/tableLayout"
+                    app:hospitals="@{viewModel.hospitalsData}"
+                    android:layout_width="match_parent"
+                    android:visibility="@{viewModel.dataReady ? View.VISIBLE : View.GONE}"
+                    android:layout_height="match_parent">
+                </TableLayout>
 
-    </ScrollView>
+            </HorizontalScrollView>
 
-</RelativeLayout>
+        </ScrollView>
+
+    </RelativeLayout>
+
+</layout>
 
