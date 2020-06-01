@@ -1,15 +1,17 @@
 package com.sensyne.hospitals.binding
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.sensyne.hospitals.R
 import com.sensyne.hospitals.model.Hospitals
-
+import com.sensyne.hospitals.ui.HospitalDataViewerActivity
 
 @BindingAdapter(value = ["app:hospitals"], requireAll = true)
 fun setHospitalData(tableLayout: TableLayout, hospitals: Hospitals?) {
@@ -28,6 +30,7 @@ fun populateData(tableLayout: TableLayout, hospitals: Hospitals) {
     tableLayout.addView(tableRow)
     hospitals.data.forEachIndexed{ index, data ->
         val tableRow: TableRow = getDataRow(context)
+        tableRow.id = index
         val rowOddColour =  R.color.lightBlue
         val rowEvenColour = android.R.color.white
         if (index % 2 == 0) {
@@ -39,6 +42,20 @@ fun populateData(tableLayout: TableLayout, hospitals: Hospitals) {
         while(iterator.hasNext()) {
             val dataRow = iterator.next().trim()
             tableRow.addView(getDataView(dataRow, context))
+        }
+
+        tableRow.setOnClickListener { view ->
+            val tableRow = view as TableRow
+            val id = tableRow.id
+            val headers = hospitals.headers
+            val rowData = hospitals.data[index]
+            val context = tableRow.context
+            val intent = Intent(context, HospitalDataViewerActivity::class.java)
+            val bundle = Bundle()
+            bundle.putStringArray("headers", headers.toTypedArray())
+            bundle.putStringArray("data", rowData.toTypedArray())
+            intent.putExtras(bundle)
+            context.startActivity(intent)
         }
 
         tableLayout.addView(tableRow)
@@ -78,12 +95,12 @@ fun getHeaderView(header: String, context: Context) : TextView {
     return textView
 }
 
-fun getDataView(header: String, context: Context) : TextView {
+fun getDataView(dataRow: String, context: Context) : TextView {
     val textView = TextView(context)
-    textView.text = header
+    textView.text = dataRow
     textView.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
     textView.textSize = 15.0f
-    textView.setPadding(16, 8, 64, 8)
+    textView.setPadding(16, 16, 64, 16)
     textView.setTextColor(context.resources.getColor(android.R.color.black))
 
     return textView
