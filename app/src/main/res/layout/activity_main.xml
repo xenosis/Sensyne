@@ -30,7 +30,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="horizontal|vertical"
-            android:layout_marginTop="5dip"
             android:scrollbarStyle="outsideInset"
             android:fillViewport="true">
 
@@ -38,15 +37,14 @@
                 android:id="@+id/horizontalView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scrollbars="horizontal|vertical"
-                android:layout_marginTop="5dip">
+                android:scrollbars="horizontal|vertical">
 
                 <TableLayout
                     android:id="@+id/tableLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     app:hospitals="@{viewModel.hospitalsData}"
-                    android:layout_width="match_parent"
-                    android:visibility="@{viewModel.dataReady ? View.VISIBLE : View.GONE}"
-                    android:layout_height="match_parent">
+                    android:visibility="@{viewModel.dataReady ? View.VISIBLE : View.GONE}">
                 </TableLayout>
 
             </HorizontalScrollView>
