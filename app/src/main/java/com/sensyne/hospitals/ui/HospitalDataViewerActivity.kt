@@ -9,13 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sensyne.hospitals.R
 import kotlinx.android.synthetic.main.activity_hospital_data_viewer.*
 
-
 class HospitalDataViewerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_hospital_data_viewer)
+
+        title = "Data Viewer"
 
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -26,7 +27,13 @@ class HospitalDataViewerActivity : AppCompatActivity() {
         populateData(headers!!, data!!)
     }
 
-    fun populateData(headers: Array<out String>, dataRow: Array<out String>) {
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        onBackPressed()
+
+        return true
+    }
+
+    private fun populateData(headers: Array<out String>, dataRow: Array<out String>) {
         for (index in 0..headers.size - 1) {
             val headerView = getHeaderView(headers[index], this)
             val dataView = getDataView(dataRow[index], this)
@@ -36,13 +43,7 @@ class HospitalDataViewerActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        onBackPressed()
-
-        return true
-    }
-
-    fun getHeaderView(header: String, context: Context) : TextView {
+    private fun getHeaderView(header: String, context: Context) : TextView {
         val textView = TextView(context)
         textView.text = header
         textView.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
@@ -53,7 +54,7 @@ class HospitalDataViewerActivity : AppCompatActivity() {
         return textView
     }
 
-    fun getDataView(data: String, context: Context) : TextView {
+    private fun getDataView(data: String, context: Context) : TextView {
         val textView = TextView(context)
         textView.text = if (data.isEmpty()) "Not available" else data
         textView.setTypeface(Typeface.DEFAULT, Typeface.NORMAL)

@@ -1,5 +1,6 @@
 package com.sensyne.hospitals.ui
 
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,8 +19,8 @@ class HospitalsViewModel(private val hospitalsInteractor: HospitalsInteractor) :
         hospitalsInteractor.getHospitalInformation({
             _hospitalsData.value = it
             dataReady.set(true)
-        }, {
-            // error handling goes here
+        }, { networkError ->
+            Log.d("HospitalsViewModel", "Network error = $networkError")
         })
     }
 }
