@@ -10,7 +10,7 @@ object CSVParser {
         val iterator= reader.lineSequence().iterator()
         val headers = iterator.next().split('�')
         while(iterator.hasNext()) {
-            val row = iterator.next().split('�')
+            val row = iterator.next().trim().split('�')
             data.add(row)
         }
 
