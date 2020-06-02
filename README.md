@@ -22,5 +22,6 @@ the data structure changes, the app will still work fine without having to relea
 of the app
 
 Missing
+
 Unfortunately I didn't have time to work on the filtering feature but am happy to discuss in detail
 how I would implement this feature
